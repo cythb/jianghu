@@ -19,25 +19,18 @@ class MapLoader: NSObject {
         let resDict = NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments, error: &error) as! NSDictionary
         for (key, value) in resDict {
             let k = key as! String
-            if k.hasPrefix("jiulou") {
+            var className = k.componentsSeparatedByString("_").first!
+            if className == "MJiuLou" {
                 let json = value as! NSDictionary
                 let jiulou = MJiuLou(dict: json)
                 results.append(jiulou)
-                // description
-                jiulou.mapInfos["description"] = self.formatItem("description", info: json)
-                // action
-                for (key, value) in json["actions"] as! NSDictionary {
-                    let name = "actions." + (key as! String)
-                    jiulou.mapInfos[name] = self.formatItem(name, info: json)
-                }
-                
             }
         }
         
         return results
     }
     
-    func formatItem(item: String, info: NSDictionary) -> String {
+    class func formatItem(item: String, info: NSDictionary) -> String {
         let itemComponents = item.componentsSeparatedByString(".")
         var tmp = info
         var format = ""
@@ -68,7 +61,7 @@ class MapLoader: NSObject {
         return format
     }
     
-    func formatSubItem(item: String, format: String, info: NSDictionary) -> String {
+    class func formatSubItem(item: String, format: String, info: NSDictionary) -> String {
         var itemTmp = item
         var formatTmp = format
         itemTmp = itemTmp.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " $") )
@@ -92,14 +85,21 @@ class MapLoader: NSObject {
         return formatTmp
     }
     
-    func getProperty(params: [AnyObject]) -> String? {
+    class func getProperty(params: [AnyObject]) -> String? {
         let info = params[0] as! NSDictionary
         let name = params[1] as! String
         return info[name] as? String
     }
     
-    func action(params: [AnyObject]) -> String? {
+    class func action(params: [AnyObject]) -> String? {
         let name = params[1] as! String
         return "actions://"+name
+    }
+    
+    class func jhcount(params: [AnyObject]) -> String? {
+        let name = params[1] as! String
+        let infos = params[0] as! NSDictionary
+        // TODO:...
+        return "jhcount"
     }
 }

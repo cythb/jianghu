@@ -1,5 +1,5 @@
 {
-    "jiulou": {
+    "MJiuLou": {
         "name": "缘来茶楼",
         "description": "安静的街道上，唯有这家酒楼还算热闹。大门上挂着一块匾上面写着《$name 》",
         "actions": {
@@ -9,7 +9,7 @@
         },
         "place_0": {
             "name": "一楼",
-            "description": "$name 地面上摆着$count_desk 张桌子。",
+            "description": "$name 地面上摆着$jhcount_desk 张桌子。",
             "size": {
                  "width": 5,
                  "height": 4
@@ -17,7 +17,7 @@
              "center": [2.5, 2],
              "desk_0": {
                  "name": "一号桌子",
-                 "description": "$name 周围放着$count_seat 凳子。",
+                 "description": "$name 周围放着$jhcount_seat 凳子。",
                  "seat_0": {},
                  "seat_1": {},
                  "seat_2": {},

@@ -8,41 +8,41 @@
 
 import UIKit
 
-class MJiuLou: NSObject {
+@objc
+class MJiuLou: MObject {
     var places = [MPlace]()
-    var mapInfos = [String: String]()
     
     override var description: String {
         get {
-            if mapInfos["description"] != nil {
-                return mapInfos["description"]!
-            }else{
-                return ""
-            }
+            return desc
         }
     }
     
-    init(dict: NSDictionary) {
+    override init(dict: NSDictionary) {
         for (key, value) in dict {
             let k = key as! String
+            if k == "name" || k == "description" || k == "actions" {
+                continue
+            }
+            
             if k.hasPrefix("place") {
                 let place = MPlace(dict: value as! NSDictionary)
                 places.append(place)
             }
         }
         
-        super.init()
+        super.init(dict: dict)
     }
     
     // MARK: Ations
     func acionEnter() -> String {
-        let msg = mapInfos["actions.enter"]!
+        let msg = actions["enter"]!
         println("\(msg)")
         return msg
     }
     
     func acionExit() -> String {
-        let msg = mapInfos["actions.exit"]!
+        let msg = actions["exit"]!
         println("\(msg)")
         return msg
     }
