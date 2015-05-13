@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Door: JHObject {
+class Door: MObject {
     var isOpen = false
     
     // MARK: - 功能

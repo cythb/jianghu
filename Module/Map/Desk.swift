@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Desk: JHObject {
+class Desk: MObject {
     var staticObjects = [AnyObject]()
     
     override var description: String {
@@ -25,20 +25,22 @@ class Desk: JHObject {
         }
     }
     
-    init(dict: NSDictionary) {
-        super.init()
+    override init(dict: NSDictionary) {
+        super.init(dict: dict)
         
         for (key, value) in dict {
             let k = key as! String
             if k.hasPrefix("seat") {
-                let seat = Seat()
+                let seat = Seat(dict: [String: String]())
                 staticObjects.append(seat)
             }
         }
     }
     
-    func serve(food: String) {
-        println("上了一份\(food)")
+    func serve(food: String) -> String {
+        let rsp = "上了一份\(food)"
+        println(rsp)
+        return rsp
     }
    
 }

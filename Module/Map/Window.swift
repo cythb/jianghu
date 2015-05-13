@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Window: JHObject {
+class Window: MObject {
     override func look() {
         println("窗外是美丽的秦淮河:)")
     }

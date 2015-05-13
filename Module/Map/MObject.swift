@@ -14,11 +14,21 @@ class MObject: NSObject {
     var actions = [String: String]()
     
     init(dict: NSDictionary) {
-        name = dict["name"] as! String
-        desc = dict["description"] as! String
-        for (key, value) in dict["actions"] as! [String: String] {
-            actions[key] = value
+        if let n = dict["name"] as? String {
+            name = n
+        }
+        if let d = dict["description"] as? String {
+            desc = d
+        }
+        if let a = dict["actions"] as? [String: String] {
+            for (key, value) in a {
+                actions[key] = value
+            }
         }
         super.init()
+    }
+    
+    func look() {
+        println("看上去没什么特别的.")
     }
 }

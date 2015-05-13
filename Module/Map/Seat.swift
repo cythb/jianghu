@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Seat: JHObject {
+class Seat: MObject {
     var isEmpty = true
    
     func sit() {

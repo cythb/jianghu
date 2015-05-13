@@ -8,12 +8,14 @@
 
 import UIKit
 
-class Counter: JHObject {
+class Counter: MObject {
     // MARK: - 功能
     /**
     算账
     */
-    func count() {
-        println("一共花掉8两白银")
+    func checkout() -> String {
+        let msg = "一共花掉8两白银"
+        println(msg)
+        return msg
     }
 }

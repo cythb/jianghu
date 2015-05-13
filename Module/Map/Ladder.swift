@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Ladder: JHObject {
+class Ladder: MObject {
     func up() {
         println("爬上去")
     }

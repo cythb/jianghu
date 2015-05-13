@@ -46,4 +46,10 @@ class MJiuLou: MObject {
         println("\(msg)")
         return msg
     }
+
+    func acionLook() -> String {
+        let msg = actions["look"]!
+        println("\(msg)")
+        return msg
+    }
 }
