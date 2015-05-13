@@ -15,11 +15,9 @@ class MObject: NSObject {
     
     init(dict: NSDictionary) {
         name = dict["name"] as! String
-        desc = MapLoader.formatItem("description", info: dict)
-        for (key, value) in dict["actions"] as! NSDictionary {
-            let k = (key as! String)
-            let name = "actions." + k
-            actions[k] = MapLoader.formatItem(name, info: dict)
+        desc = dict["description"] as! String
+        for (key, value) in dict["actions"] as! [String: String] {
+            actions[key] = value
         }
         super.init()
     }

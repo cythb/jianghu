@@ -10,17 +10,41 @@ import UIKit
 
 @objc
 class MapLoader: NSObject {
+    func preprogressMapData() -> String {
+        let mapPath = NSBundle.mainBundle().pathForResource("map", ofType: "json")
+        let text = NSString(contentsOfFile: mapPath!, encoding: NSUTF8StringEncoding, error: nil)
+        let data = NSData(contentsOfFile: mapPath!)
+        let info = NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments, error: nil) as! NSDictionary
+        
+        let regex = NSRegularExpression(pattern: "\\$[a-z\\.]+[_]?[a-z\\.]+\\s{1}",
+            options: .UseUnixLineSeparators | .UseUnicodeWordBoundaries,
+            error: nil)
+        var processedText = text!
+        while true {
+            let range = NSMakeRange(0, processedText.length)
+            var matches = regex?.matchesInString(processedText as String, options: .allZeros, range: range) as? [NSTextCheckingResult]
+            if matches == nil || matches!.count < 1 {
+                break
+            }
+            
+            let matchRange = matches![0].range as NSRange
+            let varStringWithFunc = processedText.substringWithRange(matchRange)
+            processedText = MapLoader.formatSubItem(varStringWithFunc, format:processedText as String, info: info)
+        }
+        return processedText as String
+    }
+    
     func load() -> [AnyObject] {
         var results = [AnyObject]()
         
-        let mapPath = NSBundle.mainBundle().pathForResource("map", ofType: "json")
-        let data = NSData(contentsOfFile: mapPath!)
+        let text = self.preprogressMapData()
+        let data = text.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
         var error: NSError? = nil
         let resDict = NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments, error: &error) as! NSDictionary
         for (key, value) in resDict {
             let k = key as! String
             var className = k.componentsSeparatedByString("_").first!
-            if className == "MJiuLou" {
+            if className == "jiulou" {
                 let json = value as! NSDictionary
                 let jiulou = MJiuLou(dict: json)
                 results.append(jiulou)
@@ -28,37 +52,6 @@ class MapLoader: NSObject {
         }
         
         return results
-    }
-    
-    class func formatItem(item: String, info: NSDictionary) -> String {
-        let itemComponents = item.componentsSeparatedByString(".")
-        var tmp = info
-        var format = ""
-        for path in itemComponents {
-            let subDict = tmp[path] as? NSDictionary
-            if let d = subDict {
-                tmp = d
-            }else{
-                format = tmp[path] as! String
-            }
-        }
-        
-        let regex = NSRegularExpression(pattern: "\\$[a-z_]+\\s",
-            options: .UseUnixLineSeparators | .UseUnicodeWordBoundaries,
-            error: nil)
-        while true {
-            let range = NSMakeRange(0, count(format))
-            var matches = regex?.matchesInString(format, options: .allZeros, range: range) as? [NSTextCheckingResult]
-            if matches == nil || matches!.count < 1 {
-                break
-            }
-            
-            let matchRange = matches![0].range as NSRange
-            let varStringWithFunc = format.substringWithRange(matchRange)
-            format = self.formatSubItem(varStringWithFunc, format:format, info: info)
-        }
-        
-        return format
     }
     
     class func formatSubItem(item: String, format: String, info: NSDictionary) -> String {
@@ -88,7 +81,19 @@ class MapLoader: NSObject {
     class func getProperty(params: [AnyObject]) -> String? {
         let info = params[0] as! NSDictionary
         let name = params[1] as! String
-        return info[name] as? String
+        
+        let nameComponents = name.componentsSeparatedByString(".")
+        var tmp = info
+        var format = ""
+        for path in nameComponents {
+            let subDict = tmp[path] as? NSDictionary
+            if let d = subDict {
+                tmp = d
+            }else{
+                format = tmp[path] as! String
+            }
+        }
+        return format
     }
     
     class func action(params: [AnyObject]) -> String? {
@@ -100,6 +105,6 @@ class MapLoader: NSObject {
         let name = params[1] as! String
         let infos = params[0] as! NSDictionary
         // TODO:...
-        return "jhcount"
+        return "3"
     }
 }

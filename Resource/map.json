@@ -1,15 +1,15 @@
 {
-    "MJiuLou": {
+    "jiulou": {
         "name": "缘来茶楼",
-        "description": "安静的街道上，唯有这家酒楼还算热闹。大门上挂着一块匾上面写着《$name 》",
+        "description": "安静的街道上，唯有这家酒楼还算热闹。大门上挂着一块匾上面写着《$jiulou.name 》",
         "actions": {
-            "look": "$name 正在营业，你可以<a href='$action_enter >走进去</a>",
-            "enter": "你走进了$name .",
-            "exit": "你离开了$name ."
+            "look": "$jiulou.name 正在营业，你可以<a href='$action_enter >走进去</a>",
+            "enter": "你走进了$jiulou.name .",
+            "exit": "你离开了$jiulou.name ."
         },
         "place_0": {
             "name": "一楼",
-            "description": "$name 地面上摆着$jhcount_desk 张桌子。",
+            "description": "$jiulou.name 地面上摆着$jhcount_desk 张桌子。",
             "size": {
                  "width": 5,
                  "height": 4
@@ -17,7 +17,7 @@
              "center": [2.5, 2],
              "desk_0": {
                  "name": "一号桌子",
-                 "description": "$name 周围放着$jhcount_seat 凳子。",
+                 "description": "$jiulou.name 周围放着$jhcount_seat 张凳子。",
                  "seat_0": {},
                  "seat_1": {},
                  "seat_2": {},
