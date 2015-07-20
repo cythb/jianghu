@@ -29,6 +29,10 @@ class MObject: NSObject {
     }
     
     func look() {
-        println("看上去没什么特别的.")
+        if !desc.isEmpty {
+            println(desc)
+        }else{
+            println("看上去没什么特别的.")
+        }
     }
 }
